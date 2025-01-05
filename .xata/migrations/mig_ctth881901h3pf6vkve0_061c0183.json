@@ -1,0 +1,11 @@
+{
+  "id": "mig_ctth881901h3pf6vkve0",
+  "checksum": "1:061c018317921aad6e9114340615a11fadec473f4c6863c1eacd0b31f0ef0fe5",
+  "operations": [
+    {
+      "addTable": {
+        "table": "environments"
+      }
+    }
+  ]
+}

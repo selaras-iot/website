@@ -1,0 +1,18 @@
+{
+  "id": "mig_ctth9a1901h3pf6vkvhg",
+  "parentID": "mig_ctth95p901h3pf6vkvgg",
+  "checksum": "1:1cd38fef7250f2f89d8a0cc5b0eda469011d250974c5c37ae4281f1509067496",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "text",
+          "notNull": true,
+          "defaultValue": ""
+        },
+        "table": "devices"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mig_ctth8r1901h3pf6vkvfg",
+  "parentID": "mig_ctth881901h3pf6vkve0",
+  "checksum": "1:f4b877abef1f2400062e20313a3a8e7e4dc17572dba3fedc0ed95f4f79497f3e",
+  "operations": [
+    {
+      "addTable": {
+        "table": "devices"
+      }
+    }
+  ]
+}

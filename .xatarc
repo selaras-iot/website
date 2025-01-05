@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Rizal-Dwi-Anggoro-s-workspace-td9vgj.us-east-1.xata.sh/db/selaras-iot",
+  "codegen": {
+    "output": "src/lib/database/xata.ts"
+  }
+}

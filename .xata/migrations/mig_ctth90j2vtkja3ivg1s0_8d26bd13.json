@@ -1,0 +1,19 @@
+{
+  "id": "mig_ctth90j2vtkja3ivg1s0",
+  "parentID": "mig_ctth8r1901h3pf6vkvfg",
+  "checksum": "1:8d26bd13050615eb1752ae64631dae0ffd5521c4a2bda699257b15147a986e8c",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "environment",
+          "type": "link",
+          "link": {
+            "table": "environments"
+          }
+        },
+        "table": "devices"
+      }
+    }
+  ]
+}

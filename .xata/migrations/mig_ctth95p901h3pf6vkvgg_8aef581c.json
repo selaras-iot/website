@@ -1,0 +1,18 @@
+{
+  "id": "mig_ctth95p901h3pf6vkvgg",
+  "parentID": "mig_ctth90j2vtkja3ivg1s0",
+  "checksum": "1:8aef581c529c23cf0f5e7535c1d63fe54b8811ac7252a6b69f50996bd5a7ce60",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "name",
+          "type": "text",
+          "notNull": true,
+          "defaultValue": ""
+        },
+        "table": "environments"
+      }
+    }
+  ]
+}

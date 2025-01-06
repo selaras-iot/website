@@ -2,6 +2,7 @@ import { verifyBearerToken } from "@/lib/bearer-token";
 import { database } from "@/lib/database";
 import { APIResponse } from "@/models/api-response";
 import { NextRequest } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
 interface POSTResponse {
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     const query = database
       .insertInto("environments")
-      .values({ name } as any)
+      .values({ id: uuidv4(), name } as any)
       .returning("id");
     const result = await query.executeTakeFirstOrThrow();
 

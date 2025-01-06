@@ -1,19 +1,27 @@
 import { swaggerComponentRefs } from "@/lib/swagger/components";
 import { swaggerSecurity } from "@/lib/swagger/security";
 
-export const environmentByIdPaths = {
-  "api/v1/environments/{environment_id}": {
-    get: {
-      tags: ["Environments"],
+export const devicesPaths = {
+  "api/v1/devices": {
+    post: {
+      tags: ["Devices"],
       security: swaggerSecurity,
-      parameters: [
-        {
-          name: "environment_id",
-          in: "path",
-          schema: { type: "string" },
-          required: true,
+      requestBody: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                uuid: { type: "string" },
+                name: { type: "string" },
+                type: { type: "string" },
+                environment_id: { type: "string" },
+                move_environment: { type: "boolean" },
+              },
+            },
+          },
         },
-      ],
+      },
       responses: {
         200: {
           content: {
@@ -21,23 +29,9 @@ export const environmentByIdPaths = {
               schema: {
                 type: "object",
                 properties: {
+                  need_move_environment: { type: "boolean" },
                   id: { type: "string" },
-                  name: { type: "string" },
-                  created_at: { type: "string", format: "date" },
-                  updated_at: { type: "string", format: "date" },
-                  devices: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        id: { type: "string" },
-                        name: { type: "string" },
-                        type: { type: "string" },
-                        created_at: { type: "string", format: "date" },
-                        updated_at: { type: "string", format: "date" },
-                      },
-                    },
-                  },
+                  success: { type: "boolean" },
                 },
               },
             },
@@ -57,10 +51,10 @@ export const environmentByIdPaths = {
             },
           },
         },
-        404: {
+        409: {
           content: {
             "application/json": {
-              schema: { $ref: swaggerComponentRefs.NotFoundError },
+              schema: { $ref: swaggerComponentRefs.ConflictError },
             },
           },
         },

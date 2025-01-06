@@ -1,3 +1,4 @@
+import { devicesPaths } from "@/app/api/v1/devices/docs";
 import { environmentByIdPaths } from "@/app/api/v1/environments/[environment_id]/docs";
 import { environmentsPaths } from "@/app/api/v1/environments/docs";
 import { swaggerComponents } from "./components";
@@ -14,7 +15,11 @@ export const swaggerSpec = {
     schemas: swaggerComponents,
   },
   paths: {
+    // environments
     ...environmentsPaths,
     ...environmentByIdPaths,
+
+    // devices
+    ...devicesPaths,
   },
 };

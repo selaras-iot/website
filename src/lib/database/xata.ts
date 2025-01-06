@@ -17,6 +17,7 @@ const tables = [
     columns: [
       { name: "environment", type: "link", link: { table: "environments" } },
       { name: "name", type: "text", notNull: true, defaultValue: "" },
+      { name: "type", type: "text", notNull: true, defaultValue: "" },
     ],
   },
 ] as const;

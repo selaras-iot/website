@@ -1,5 +1,6 @@
 import { environmentsPaths } from "@/app/api/v1/environments/docs";
 import { swaggerComponents } from "./components";
+import { swaggerSecuritySchemes } from "./security";
 
 export const swaggerSpec = {
   openapi: "3.1.0",
@@ -8,7 +9,7 @@ export const swaggerSpec = {
     version: "1.0",
   },
   components: {
-    // securitySchemes: swaggerSecuritySchemes,
+    securitySchemes: swaggerSecuritySchemes,
     schemas: swaggerComponents,
   },
   paths: {

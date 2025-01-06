@@ -2,7 +2,7 @@ import { swaggerComponentRefs } from "@/lib/swagger/components";
 import { swaggerSecurity } from "@/lib/swagger/security";
 
 export const devicesPaths = {
-  "api/v1/devices": {
+  "/api/v1/devices": {
     post: {
       tags: ["Devices"],
       security: swaggerSecurity,

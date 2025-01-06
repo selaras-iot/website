@@ -2,7 +2,7 @@ import { swaggerComponentRefs } from "@/lib/swagger/components";
 import { swaggerSecurity } from "@/lib/swagger/security";
 
 export const environmentsPaths = {
-  "api/v1/environment": {
+  "/api/v1/environments": {
     post: {
       tags: ["Environments"],
       security: swaggerSecurity,

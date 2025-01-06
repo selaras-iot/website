@@ -2,7 +2,7 @@ import { swaggerComponentRefs } from "@/lib/swagger/components";
 import { swaggerSecurity } from "@/lib/swagger/security";
 
 export const environmentByIdPaths = {
-  "api/v1/environments/{environment_id}": {
+  "/api/v1/environments/{environment_id}": {
     get: {
       tags: ["Environments"],
       security: swaggerSecurity,

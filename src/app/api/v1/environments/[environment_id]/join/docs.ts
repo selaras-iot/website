@@ -1,7 +1,7 @@
 import { swaggerComponentRefs } from "@/lib/swagger/components";
 
 export const joinByEnvironmentIdPaths = {
-  "api/v1/environments/{environment_id}/join": {
+  "/api/v1/environments/{environment_id}/join": {
     get: {
       tags: ["Environments"],
       parameters: [

@@ -8,10 +8,12 @@ interface GETResponse {
   id: string;
   name: string;
 }
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { environment_id: string } }
+) {
   try {
-    const json = await request.json();
-    const { environment_id: environmentId } = json;
+    const { environment_id: environmentId } = params;
 
     // validasi request
     const validate = z

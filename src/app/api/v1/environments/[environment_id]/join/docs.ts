@@ -1,9 +1,11 @@
 import { swaggerComponentRefs } from "@/lib/swagger/components";
+import { swaggerSecurity } from "@/lib/swagger/security";
 
 export const joinByEnvironmentIdPaths = {
   "/api/v1/environments/{environment_id}/join": {
     get: {
       tags: ["Environments"],
+      security: swaggerSecurity,
       parameters: [
         {
           name: "environment_id",

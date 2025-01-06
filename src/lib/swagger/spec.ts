@@ -1,3 +1,4 @@
+import { deviceByIdPaths } from "@/app/api/v1/devices/[device_id]/docs";
 import { devicesPaths } from "@/app/api/v1/devices/docs";
 import { environmentByIdPaths } from "@/app/api/v1/environments/[environment_id]/docs";
 import { joinByEnvironmentIdPaths } from "@/app/api/v1/environments/[environment_id]/join/docs";
@@ -23,5 +24,6 @@ export const swaggerSpec = {
 
     // devices
     ...devicesPaths,
+    ...deviceByIdPaths,
   },
 };

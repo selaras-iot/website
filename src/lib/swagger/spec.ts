@@ -1,3 +1,4 @@
+import { environmentByIdPaths } from "@/app/api/v1/environments/[environment_id]/docs";
 import { environmentsPaths } from "@/app/api/v1/environments/docs";
 import { swaggerComponents } from "./components";
 import { swaggerSecuritySchemes } from "./security";
@@ -14,5 +15,6 @@ export const swaggerSpec = {
   },
   paths: {
     ...environmentsPaths,
+    ...environmentByIdPaths,
   },
 };

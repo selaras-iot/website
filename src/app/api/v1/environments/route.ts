@@ -1,3 +1,4 @@
+import { verifyBearerToken } from "@/lib/bearer-token";
 import { database } from "@/lib/database";
 import { APIResponse } from "@/models/api-response";
 import { NextRequest } from "next/server";
@@ -27,6 +28,9 @@ export async function POST(request: NextRequest) {
           message: it.message,
         }))
       );
+
+    if (!verifyBearerToken(request))
+      return APIResponse.respondWithUnauthorized();
 
     const query = database
       .insertInto("environments")

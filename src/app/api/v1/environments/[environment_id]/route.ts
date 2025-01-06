@@ -47,40 +47,40 @@ export async function GET(
     if (!verifyBearerToken(request))
       return APIResponse.respondWithUnauthorized();
 
-    const query = database
+    // query untuk mendapatkan lingkungan
+    const queryEnv = database
       .selectFrom("environments as e")
-      .innerJoin("devices as d", "d.environment", "e.id")
-      .select([
-        "e.id as env_id",
-        "e.name as env_name",
-        "d.id as device_id",
-        "d.name as device_name",
-        "d.type as device_type",
-      ])
-      .select(sql<string>`e."xata.createdAt"`.as("env_created_at"))
-      .select(sql<string>`e."xata.updatedAt"`.as("env_updated_at"))
-      .select(sql<string>`d."xata.createdAt"`.as("device_created_at"))
-      .select(sql<string>`d."xata.updatedAt"`.as("device_updated_at"))
+      .select(["e.id", "e.name"])
+      .select(sql<string>`e."xata.createdAt"`.as("created_at"))
+      .select(sql<string>`e."xata.updatedAt"`.as("updated_at"))
       .where("e.id", "=", environmentId);
-    const result = await query.execute();
+    const resultEnv = await queryEnv.executeTakeFirst();
 
-    // validasi id lingkungan
-    if (!result || result.length === 0)
+    if (!resultEnv)
       return APIResponse.respondWithNotFound(
         "Lingkungan dengan ID tersebut tidak ditemukan!"
       );
 
+    // query untuk mendapatkan daftar devices
+    const queryDevices = database
+      .selectFrom("devices as d")
+      .select(["d.id", "d.name", "d.type"])
+      .select(sql<string>`d."xata.createdAt"`.as("created_at"))
+      .select(sql<string>`d."xata.updatedAt"`.as("updated_at"))
+      .where("d.environment", "=", resultEnv.id as any);
+    const resultDevices = await queryDevices.execute();
+
     return APIResponse.respondWithSuccess<GETResponse>({
-      id: result[0].env_id,
-      name: result[0].env_name,
-      created_at: result[0].env_created_at,
-      updated_at: result[0].env_updated_at,
-      devices: result.map((it) => ({
-        id: it.device_id,
-        name: it.device_name,
-        type: it.device_type,
-        created_at: it.device_created_at,
-        updated_at: it.device_updated_at,
+      id: resultEnv.id,
+      name: resultEnv.name,
+      created_at: resultEnv.created_at,
+      updated_at: resultEnv.updated_at,
+      devices: resultDevices.map((it) => ({
+        id: it.id,
+        name: it.name,
+        type: it.type,
+        created_at: it.created_at,
+        updated_at: it.updated_at,
       })),
     });
   } catch (e) {

@@ -59,3 +59,50 @@ export async function PATCH(
     return APIResponse.respondWithServerError();
   }
 }
+
+interface DELETEResponse {
+  success: boolean;
+  id: string;
+}
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { device_id: string } }
+) {
+  try {
+    const { device_id: deviceId } = params;
+
+    // validasi request dari user
+    const validate = z
+      .object({
+        deviceId: z
+          .string({ required_error: "ID perangkat tidak boleh kosong!" })
+          .min(1, "ID perangkat tidak boleh kosong!"),
+      })
+      .safeParse({ deviceId });
+    if (!validate.success)
+      return APIResponse.respondWithBadRequest(
+        validate.error.errors.map((it) => ({
+          path: it.path[0] as string,
+          message: it.message,
+        }))
+      );
+
+    // validasi bearer token
+    if (!verifyBearerToken(request))
+      return APIResponse.respondWithUnauthorized();
+
+    // delete device
+    const query = database
+      .deleteFrom("devices")
+      .where("id", "=", deviceId)
+      .returning("id");
+    const result = await query.executeTakeFirstOrThrow();
+
+    return APIResponse.respondWithSuccess<DELETEResponse>({
+      success: true,
+      id: result.id,
+    });
+  } catch (e) {
+    return APIResponse.respondWithServerError();
+  }
+}

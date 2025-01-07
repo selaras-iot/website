@@ -1,5 +1,5 @@
 import { verifyBearerToken } from "@/lib/bearer-token";
-import { database } from "@/lib/database";
+import { database, xata } from "@/lib/database";
 import { APIResponse } from "@/models/api-response";
 import { sql } from "kysely";
 import { NextRequest } from "next/server";
@@ -135,6 +135,67 @@ export async function PATCH(
     return APIResponse.respondWithSuccess<PATCHResponse>({
       success: true,
       id: result.id,
+    });
+  } catch (e) {
+    return APIResponse.respondWithServerError();
+  }
+}
+
+interface DELETEResponse {
+  success: boolean;
+  id: string;
+}
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { environment_id: string } }
+) {
+  try {
+    const { environment_id: environmentId } = params;
+
+    // validasi request dari user
+    const validate = z
+      .object({
+        environmentId: z
+          .string({ required_error: "ID lingkungan tidak boleh kosong!" })
+          .min(1, "ID lingkungan tidak boleh kosong!"),
+      })
+      .safeParse({ environmentId });
+    if (!validate.success)
+      return APIResponse.respondWithBadRequest(
+        validate.error.errors.map((it) => ({
+          path: it.path[0] as string,
+          message: it.message,
+        }))
+      );
+
+    // validasi bearer token
+    if (!verifyBearerToken(request))
+      return APIResponse.respondWithUnauthorized();
+
+    // mendapatkan daftar devices yang terhubung dengan lingkungan
+    const queryDevices = database
+      .selectFrom("devices as d")
+      .select(["d.id"])
+      .where("d.environment", "=", environmentId as any);
+    const resultDevices = await queryDevices.execute();
+    const mappedDevices = resultDevices.map((it) => ({
+      delete: { table: "devices", id: it.id },
+    }));
+
+    // hapus data lingkungan
+    const result = await xata.transactions.run([
+      { delete: { table: "environments", id: environmentId } },
+      ...(mappedDevices as any),
+    ]);
+
+    if (result.results[0].rows === 0)
+      return APIResponse.respondWithNotFound(
+        "Lingkungan dengan ID tersebut tidak ditemukan!"
+      );
+
+    return APIResponse.respondWithSuccess<DELETEResponse>({
+      success: true,
+      id: environmentId,
     });
   } catch (e) {
     return APIResponse.respondWithServerError();

@@ -8,10 +8,8 @@ interface PATCHResponse {
   success: boolean;
   id: string;
 }
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { device_id: string } }
-) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ device_id: string }> }) {
+  const params = await props.params;
   try {
     const json = await request.json();
     const { name, type } = json;
@@ -64,10 +62,8 @@ interface DELETEResponse {
   success: boolean;
   id: string;
 }
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { device_id: string } }
-) {
+export async function DELETE(request: NextRequest, props: { params: Promise<{ device_id: string }> }) {
+  const params = await props.params;
   try {
     const { device_id: deviceId } = params;
 

@@ -10,8 +10,9 @@ interface GETResponse {
 }
 export async function GET(
   request: NextRequest,
-  { params }: { params: { environment_id: string } }
+  props: { params: Promise<{ environment_id: string }> }
 ) {
+  const params = await props.params;
   try {
     const { environment_id: environmentId } = params;
 

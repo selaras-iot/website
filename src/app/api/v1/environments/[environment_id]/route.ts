@@ -22,8 +22,9 @@ interface GETResponse {
 }
 export async function GET(
   request: NextRequest,
-  { params }: { params: { environment_id: string } }
+  props: { params: Promise<{ environment_id: string }> }
 ) {
+  const params = await props.params;
   try {
     const { environment_id: environmentId } = params;
 
@@ -94,8 +95,9 @@ interface PATCHResponse {
 }
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { environment_id: string } }
+  props: { params: Promise<{ environment_id: string }> }
 ) {
+  const params = await props.params;
   try {
     const json = await request.json();
     const { name } = json;
@@ -147,8 +149,9 @@ interface DELETEResponse {
 }
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { environment_id: string } }
+  props: { params: Promise<{ environment_id: string }> }
 ) {
+  const params = await props.params;
   try {
     const { environment_id: environmentId } = params;
 
